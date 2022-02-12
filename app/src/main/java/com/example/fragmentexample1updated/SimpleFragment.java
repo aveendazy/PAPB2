@@ -1,12 +1,17 @@
 package com.example.fragmentexample1updated;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,6 +24,9 @@ public class SimpleFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    private static final int YES = 0;
+    private static final int NO = 1;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -63,6 +71,26 @@ public class SimpleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_simple, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_simple, container, false);
+
+        TextView questionTextView = view.findViewById(R.id.fragment_header);
+
+        RadioGroup radioGroup = view.findViewById(R.id.radio_group);
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                RadioButton checkedButton = radioGroup.findViewById(i);
+                int idx = radioGroup.indexOfChild(checkedButton);
+
+                if (idx == YES) {
+                    questionTextView.setText(R.string.yes_message);
+                }
+                else {
+                    questionTextView.setText(R.string.no_message);
+                }
+            }
+        });
+        return view;
     }
 }

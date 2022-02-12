@@ -9,12 +9,14 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SimpleFragment.OnFragmentInteractionListener {
 
     private Button mOpenButton;
     private Boolean isFragmentDisplayed = false;
     private static final String FRAGMENT_STATE = "fragment-state";
+    private int nChoice = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        SimpleFragment simpleFragment = SimpleFragment.newInstance();
+        SimpleFragment simpleFragment = SimpleFragment.newInstance(nChoice);
         fragmentTransaction.add(R.id.fragment_container, simpleFragment).addToBackStack(null).commit();
 
         mOpenButton.setText(R.string.close);
@@ -73,5 +75,11 @@ public class MainActivity extends AppCompatActivity {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         outState.putBoolean(FRAGMENT_STATE, isFragmentDisplayed);
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void OnRadioButtonChoiceChecked(int choice) {
+        nChoice = choice;
+        Toast.makeText(this,"Choice is"+String.valueOf(choice),Toast.LENGTH_SHORT).show();
     }
 }
